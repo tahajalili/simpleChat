@@ -1,4 +1,4 @@
-package edu.seg2105.edu.server.backend;
+package edu.seg2105.server.backend;
 // This file contains material supporting section 3.7 of the textbook:
 // "Object Oriented Software Engineering" and is issued under the open-source
 // license found at www.lloseng.com 
@@ -51,8 +51,17 @@ public class EchoServer extends AbstractServer
 	  
 
 	  if (message.startsWith("#login ")) {
-	    String loginId = message.substring(7).trim();  
-	
+	    String loginId = message.substring(7).trim();
+
+	    if (loginId.isEmpty()) {
+	        try {
+	            client.sendToClient("Error: Login ID cannot be empty!");
+	            client.close();
+	        } catch (Exception e) {
+	            System.out.println("Error: Cant close connection for client!");
+	        }
+	        return;
+	    }
 
 	    if (client.getInfo("loginId") != null) {
 	        try {

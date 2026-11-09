@@ -1,4 +1,4 @@
-package edu.seg2105.edu.server.backend;
+package edu.seg2105.server.backend;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,7 +15,7 @@ public class ServerConsole implements ChatIF {
     }
     
     public void display(String message) {
-        System.out.println("SERVER MSG> " + message);
+        System.out.println("SERVER> " + message);
     }
 
     
@@ -24,8 +24,7 @@ public class ServerConsole implements ChatIF {
         BufferedReader fromConsole = new BufferedReader(new InputStreamReader(System.in));
         try {
             String input;
-            while (true) {
-                input = fromConsole.readLine();
+            while ((input = fromConsole.readLine()) != null) {
 
                 if (input.startsWith("#")) {
                     handleCommands(input);
@@ -43,6 +42,11 @@ public class ServerConsole implements ChatIF {
     public void handleCommands(String command) {
         if (command.equals("#quit")) {
             System.out.println("Server is quitting...");
+            try {
+                server.close();
+            } catch (IOException e) {
+                System.out.println("Error closing server: " + e.getMessage());
+            }
             System.exit(0);
 
         } else if (command.equals("#stop")) {

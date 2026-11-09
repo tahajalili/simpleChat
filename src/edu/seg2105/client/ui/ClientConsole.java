@@ -66,7 +66,7 @@ public class ClientConsole implements ChatIF
   public void accept() {
 	    try {
 	        String message;
-	        while (true) {
+	        while (fromConsole.hasNextLine()) {
 	            message = fromConsole.nextLine();
 
 	            if (message.startsWith("#")) {
@@ -77,6 +77,7 @@ public class ClientConsole implements ChatIF
 	                client.handleMessageFromClientUI(message);
 	            }
 	        }
+	        client.quit();
 	    } catch (Exception ex) {
 	        System.out.println("Unexpected error while reading from console!");
 	    }
